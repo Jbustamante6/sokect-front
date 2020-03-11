@@ -8,6 +8,4 @@ import { WebsocketsService } from './services/websockets.service';
 })
 export class AppComponent {
   constructor(public wsService: WebsocketsService) {}
-
-  
 }
