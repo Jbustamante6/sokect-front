@@ -1,0 +1,20 @@
+<h1>Ingresar</h1>
+<hr>
+<div class="row justify-content-center">
+    <div class="col-9">
+        <form class="p-4" (ngSubmit)="ingresar()">
+           
+            <div class="form-group">
+                <label class="mr-2" for="">Nombre de usuario: </label>
+                <input 
+                    type="text" 
+                    name="usuario"
+                    [(ngModel)]="nombre" 
+                    id="nombre" 
+                    class="form-control" 
+                    placeholder="Ingrese el nombre de usuario">
+            </div>
+            <button [disabled]="nombre.trim().length === 0" type="submit" class="btn btn-primary btn-block">Ingresar</button>
+        </form>
+    </div>
+</div>
