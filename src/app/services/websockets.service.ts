@@ -8,12 +8,13 @@ import { Usuario } from '../classes/usuario.model';
 export class WebsocketsService {
 
   constructor(private socket: Socket) {
+    this.cargarStorage();
     this.checkStatus();
    }
-  public socketStatus = false; 
+  public socketStatus = false;
   public usuario: Usuario;
 
-  checkStatus(){
+  checkStatus() {
     this.socket.on('connect', () => {
       console.log('Conectado');
       this.socketStatus = true;
@@ -34,13 +35,29 @@ export class WebsocketsService {
   }
 
   login(nombre: string) {
-    console.log('configurando', nombre);
-    this.emit('configurar-usuario', {nombre}, (resp) => {
-        console.log(resp);
+
+    return new Promise( (resolve, reject) => {
+      this.emit('configurar-usuario', {nombre}, (resp) => {
+          this.usuario  = new Usuario(nombre);
+          this.guardarStorage();
+          resolve();
       });
-    // this.socket.emit('configurar-usuario', {nombre}, (resp) => {
-    //   console.log(resp);
-    // });
+    });
+  }
+
+  guardarStorage() {
+    localStorage.setItem('usuario', JSON.stringify(this.usuario));
+  }
+
+  cargarStorage() {
+    if (localStorage.getItem('usuario')) {
+      this.usuario = JSON.parse(localStorage.getItem('usuario'));
+      this.login(this.usuario.nombre);
+    }
+  }
+
+  getUsuario() {
+    return this.usuario;
   }
 }
 
